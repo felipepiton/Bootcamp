@@ -1,0 +1,31 @@
+# Create Project
+gcloud iam service-accounts create automation\
+    --description="TCB Bootcamper automation account"\
+    --display-name="automation"\ 
+    --project=project-bootcamp-89
+
+# Create IAM-Service
+gcloud iam service-accounts create create automation \
+    --description="TCB Bootcamper automation account" \
+    --display-name="automation1"
+
+gcloud iam roles describe roles/storage.admin
+gcloud projects add-iam-policy-binding bootcamp-gcp-03 \ 
+--member="serviceAccount:automation@project-bootcamp-89.iam.gserviceaccount.com"\ 
+--role="roles\storage.admin"
+
+# Get full email id of new service account
+emailId=$(gcloud iam service-accounts list --filter="email ~ ^automation" --format='value(email)')
+
+# Download key for service account
+gcloud iam service-accounts keys create automation.json --iam-account $emailId
+
+#Create bucket storage
+gsutil mb gs://iam-service-account-2
+
+#Copy
+gsutil cp "FileName"
+
+#List
+gsutil ls gs://iam-service-account-2
+
